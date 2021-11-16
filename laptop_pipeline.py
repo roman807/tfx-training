@@ -19,6 +19,7 @@ from tfx.dsl.components.common import resolver
 from tfx.dsl.experimental import latest_blessed_model_resolver
 from tfx.orchestration import data_types
 from tfx.orchestration import metadata
+from tfx.orchestration.metadata import sqlite_metadata_connection_config
 from tfx.orchestration import pipeline
 # from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
 # from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
@@ -158,5 +159,5 @@ def _create_pipeline(
     return pipeline(
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
-        metadata_connection_config=metadata.sqlite_metadata_connection_config(metadata_path),
+        metadata_connection_config=sqlite_metadata_connection_config(metadata_path),
         components=components)
