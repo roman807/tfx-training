@@ -42,7 +42,7 @@ import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
 
 
-def _create_pipeline(
+def create_pipeline(
         data_root,
         transform_module_file,
         trainer_module_file,
@@ -157,12 +157,11 @@ def _create_pipeline(
         pusher
     ]
 
-    # return tfx.dsl.Pipeline(
-    return 0
+    return tfx.dsl.Pipeline(
     # pipeline.Pipeline(
-    #     pipeline_name=pipeline_name,
-    #     pipeline_root=pipeline_root,
-    #     components=components)
+        pipeline_name=pipeline_name,
+        pipeline_root=pipeline_root,
+        components=components)
 
     # metadata_connection_config=metadata.sqlite_metadata_connection_config(metadata_path),
 
