@@ -166,9 +166,10 @@ def create_pipeline(
     # pipeline.Pipeline(
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
+        metadata_connection_config=metadata.sqlite_metadata_connection_config(metadata_path),
         components=components)
 
-    # metadata_connection_config=metadata.sqlite_metadata_connection_config(metadata_path),
+    #
 
 
 
