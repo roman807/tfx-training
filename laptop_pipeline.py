@@ -30,7 +30,7 @@ from tfx.types.standard_artifacts import Model
 from tfx.types.standard_artifacts import ModelBlessing
 from tfx.orchestration.experimental.interactive.interactive_context import InteractiveContext
 from tfx.proto import example_gen_pb2
-from tfx.dsl import Pipeline
+# from tfx.dsl import Pipeline
 import tensorflow as tf
 import tensorflow_transform as tft
 # import tensorflow_addons as tfa
