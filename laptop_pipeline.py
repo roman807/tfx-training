@@ -20,7 +20,7 @@ from tfx.dsl.experimental import latest_blessed_model_resolver
 from tfx.orchestration import data_types
 from tfx.orchestration import metadata
 from tfx.orchestration.metadata import sqlite_metadata_connection_config
-from tfx.orchestration import pipeline
+# from tfx.orchestration import pipeline
 # from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
 # from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
 from tfx.proto import pusher_pb2
@@ -90,11 +90,11 @@ def _create_pipeline(
         train_args=trainer_pb2.TrainArgs(splits=['train']),
         eval_args=trainer_pb2.EvalArgs(splits=['eval']))
 
-    model_resolver = tfx_v1.dsl.Resolver(
-        strategy_class=tfx_v1.dsl.experimental.LatestBlessedModelStrategy,
-        model=tfx_v1.dsl.Channel(type=tfx_v1.types.standard_artifacts.Model),
-        model_blessing=tfx_v1.dsl.Channel(
-            type=tfx_v1.types.standard_artifacts.ModelBlessing)).with_id(
+    model_resolver = tfx.dsl.Resolver(
+        strategy_class=tfx.dsl.experimental.LatestBlessedModelStrategy,
+        model=tfx.dsl.Channel(type=tfx.types.standard_artifacts.Model),
+        model_blessing=tfx.dsl.Channel(
+            type=tfx.types.standard_artifacts.ModelBlessing)).with_id(
         'latest_blessed_model_resolver')
 
     eval_config = text_format.Parse("""
@@ -156,7 +156,7 @@ def _create_pipeline(
         pusher
     ]
 
-    return pipeline(
+    return tfx.dsl.Pipeline(
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
         metadata_connection_config=sqlite_metadata_connection_config(metadata_path),
