@@ -20,7 +20,7 @@ from tfx.dsl.experimental import latest_blessed_model_resolver
 from tfx.orchestration import data_types
 from tfx.orchestration import metadata
 from tfx.orchestration.metadata import sqlite_metadata_connection_config
-# from tfx.orchestration import pipeline
+from tfx.orchestration import pipeline
 # from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
 # from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
 from tfx.proto import pusher_pb2
@@ -157,7 +157,8 @@ def _create_pipeline(
         pusher
     ]
 
-    return Pipeline(
+    # return tfx.dsl.Pipeline(
+    return pipeline.Pipeline(
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
         components=components)
