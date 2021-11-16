@@ -158,6 +158,5 @@ def _create_pipeline(
     return pipeline(
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
-        metadata_connection_config=tfx.orchestration.metadata
-            .sqlite_metadata_connection_config(metadata_path),
+        metadata_connection_config=tfx.orchestration.metadata.sqlite_metadata_connection_config(metadata_path),
         components=components)
