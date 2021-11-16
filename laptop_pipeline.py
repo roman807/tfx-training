@@ -41,6 +41,11 @@ import numpy as np
 import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
 
+def other(a,b):
+    return a+b
+
+def _other(a,b):
+    return a+b
 
 def create_pipeline(
         data_root,
