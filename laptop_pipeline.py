@@ -158,10 +158,11 @@ def _create_pipeline(
     ]
 
     # return tfx.dsl.Pipeline(
-    return pipeline.Pipeline(
-        pipeline_name=pipeline_name,
-        pipeline_root=pipeline_root,
-        components=components)
+    return 0
+    # pipeline.Pipeline(
+    #     pipeline_name=pipeline_name,
+    #     pipeline_root=pipeline_root,
+    #     components=components)
 
     # metadata_connection_config=metadata.sqlite_metadata_connection_config(metadata_path),
 
