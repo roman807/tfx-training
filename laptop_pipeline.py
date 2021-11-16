@@ -1,7 +1,7 @@
 import os
 
-import tfx
-from tfx import v1 as tfx_v1
+# import tfx
+from tfx import v1 as tfx
 
 # import tensorflow_model_analysis as tfma
 from tfx.components import CsvExampleGen
