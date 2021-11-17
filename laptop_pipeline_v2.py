@@ -1,9 +1,7 @@
 import os
+from datetime import datetime
 
-# import tfx
 from tfx import v1 as tfx
-
-# import tensorflow_model_analysis as tfma
 from tfx.components import CsvExampleGen
 from tfx.components import Evaluator
 from tfx.components import ExampleValidator
@@ -11,48 +9,15 @@ from tfx.components import Pusher
 from tfx.components import SchemaGen
 from tfx.components import StatisticsGen
 from tfx.components import Trainer
-from tfx.components import Tuner
 from tfx.components import Transform
-from tfx.components.trainer.executor import Executor
-from tfx.dsl.components.base import executor_spec
-from tfx.dsl.components.common import resolver
-from tfx.dsl.experimental import latest_blessed_model_resolver
-from tfx.orchestration import data_types
 from tfx.orchestration import metadata
-from tfx.orchestration.metadata import sqlite_metadata_connection_config
-from tfx.orchestration import pipeline
 from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
 from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
 from tfx.proto import pusher_pb2
 from tfx.proto import trainer_pb2
-from tfx.types import Channel
-from tfx.types.standard_artifacts import Model
-from tfx.types.standard_artifacts import ModelBlessing
-from tfx.orchestration.experimental.interactive.interactive_context import InteractiveContext
 from tfx.proto import example_gen_pb2
-# from tfx.dsl import Pipeline
-import tensorflow as tf
-import tensorflow_transform as tft
-# import tensorflow_addons as tfa
-# from tfx.orchestration import LocalDagRunner
-import pandas as pd
-from time import time
-import numpy as np
 import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
-from datetime import datetime
-
-_pipeline_name = 'laptop_pipeline_airflow'
-_laptop_root = os.path.join(os.environ['HOME'], 'laptop')
-_data_root = os.path.join(_laptop_root, 'data')
-_trainer_module_file = os.path.join(_laptop_root, 'trainer_module.py')
-_transform_module_file = os.path.join(_laptop_root, 'transform_module.py')
-_serving_model_dir = os.path.join(_laptop_root, 'serving_model', _pipeline_name)
-
-_tfx_root = os.path.join(os.environ['HOME'], 'tfx')
-_pipeline_root = os.path.join(_tfx_root, 'pipelines', _pipeline_name)
-_metadata_path = os.path.join(_tfx_root, 'metadata', _pipeline_name,
-                              'metadata.db')
 
 
 def create_pipeline(
@@ -98,7 +63,6 @@ def create_pipeline(
     trainer = Trainer(
         module_file=trainer_module_file,
         examples=transform.outputs['transformed_examples'],
-        # hyperparameters=tuner.outputs['best_hyperparameters'],
         transform_graph=transform.outputs['transform_graph'],
         schema=schema_gen.outputs['schema'],
         train_args=trainer_pb2.TrainArgs(splits=['train']),
@@ -146,7 +110,7 @@ def create_pipeline(
 
     """, tfma.EvalConfig())
 
-    evaluator = tfx.components.Evaluator(
+    evaluator = Evaluator(
         examples=example_gen.outputs['examples'],
         model=trainer.outputs['model'],
         baseline_model=model_resolver.outputs['model'],
@@ -178,13 +142,18 @@ def create_pipeline(
         components=components)
 
 
-DATA_ROOT = 'data'
-SERVING_MODEL_DIR = 'serving_model'
-PIPELINE_NAME = 'laptop_pipeline'   # where we will save the final model for deployment with TF serving
-PIPELINE_ROOT = os.path.join('pipelines', PIPELINE_NAME)
-METADATA_PATH = os.path.join('metadata', PIPELINE_NAME, 'metadata.db')
-TRANSFORM_MODULE_FILE = 'transform_module.py'
-TRAIN_MODULE_FILE = 'trainer_module.py'
+# ************* Directories, config and DAG-runner for runs with Apache Airflow ************* #
+_pipeline_name = 'laptop_pipeline_airflow'
+_laptop_root = os.path.join(os.environ['HOME'], 'laptop')
+_data_root = os.path.join(_laptop_root, 'data')
+_trainer_module_file = os.path.join(_laptop_root, 'trainer_module.py')
+_transform_module_file = os.path.join(_laptop_root, 'transform_module.py')
+_serving_model_dir = os.path.join(_laptop_root, 'serving_model', _pipeline_name)
+
+_tfx_root = os.path.join(os.environ['HOME'], 'tfx')
+_pipeline_root = os.path.join(_tfx_root, 'pipelines', _pipeline_name)
+_metadata_path = os.path.join(_tfx_root, 'metadata', _pipeline_name,
+                              'metadata.db')
 
 _airflow_config = {
     'schedule_interval': None,
@@ -202,14 +171,3 @@ DAG = AirflowDagRunner(AirflowPipelineConfig(_airflow_config)).run(
         metadata_path=_metadata_path,
     )
 )
-# _pipeline_name = 'laptop_pipeline_airflow'
-# _laptop_root = os.path.join(os.environ['HOME'], 'laptop')
-# _data_root = os.path.join(_laptop_root, 'data', 'simple')
-# _trainer_module_file = os.path.join(_laptop_root, 'trainer_module.py')
-# _transform_module_file = os.path.join(_laptop_root, 'transform_module.py')
-# _serving_model_dir = os.path.join(_laptop_root, 'serving_model', _pipeline_name)
-#
-# _tfx_root = os.path.join(os.environ['HOME'], 'tfx')
-# _pipeline_root = os.path.join(_tfx_root, 'pipelines', _pipeline_name)
-# _metadata_path = os.path.join(_tfx_root, 'metadata', _pipeline_name,
-#                               'metadata.db')
