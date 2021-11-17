@@ -42,6 +42,18 @@ import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
 from datetime import datetime
 
+_pipeline_name = 'laptop_pipeline_airflow'
+_laptop_root = os.path.join(os.environ['HOME'], 'laptop')
+_data_root = os.path.join(_laptop_root, 'data', 'simple')
+_trainer_module_file = os.path.join(_laptop_root, 'trainer_module.py')
+_transform_module_file = os.path.join(_laptop_root, 'transform_module.py')
+_serving_model_dir = os.path.join(_laptop_root, 'serving_model', _pipeline_name)
+
+_tfx_root = os.path.join(os.environ['HOME'], 'tfx')
+_pipeline_root = os.path.join(_tfx_root, 'pipelines', _pipeline_name)
+_metadata_path = os.path.join(_tfx_root, 'metadata', _pipeline_name,
+                              'metadata.db')
+
 
 def create_pipeline(
         data_root,
@@ -180,12 +192,23 @@ _airflow_config = {
 
 DAG = AirflowDagRunner(AirflowPipelineConfig(_airflow_config)).run(
     create_pipeline(
-        data_root=DATA_ROOT,
-        transform_module_file=TRANSFORM_MODULE_FILE,
-        trainer_module_file=TRAIN_MODULE_FILE,
-        pipeline_name=PIPELINE_NAME,
-        pipeline_root=PIPELINE_ROOT,
-        serving_model_dir=SERVING_MODEL_DIR,
-        metadata_path=METADATA_PATH,
+        data_root=_data_root,
+        transform_module_file=_transform_module_file,
+        trainer_module_file=_trainer_module_file,
+        pipeline_name=_pipeline_name,
+        pipeline_root=_pipeline_root,
+        serving_model_dir=_serving_model_dir,
+        metadata_path=_metadata_path,
     )
 )
+# _pipeline_name = 'laptop_pipeline_airflow'
+# _laptop_root = os.path.join(os.environ['HOME'], 'laptop')
+# _data_root = os.path.join(_laptop_root, 'data', 'simple')
+# _trainer_module_file = os.path.join(_laptop_root, 'trainer_module.py')
+# _transform_module_file = os.path.join(_laptop_root, 'transform_module.py')
+# _serving_model_dir = os.path.join(_laptop_root, 'serving_model', _pipeline_name)
+#
+# _tfx_root = os.path.join(os.environ['HOME'], 'tfx')
+# _pipeline_root = os.path.join(_tfx_root, 'pipelines', _pipeline_name)
+# _metadata_path = os.path.join(_tfx_root, 'metadata', _pipeline_name,
+#                               'metadata.db')
