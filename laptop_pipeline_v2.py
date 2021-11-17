@@ -44,7 +44,7 @@ from datetime import datetime
 
 _pipeline_name = 'laptop_pipeline_airflow'
 _laptop_root = os.path.join(os.environ['HOME'], 'laptop')
-_data_root = os.path.join(_laptop_root, 'data', 'simple')
+_data_root = os.path.join(_laptop_root, 'data')
 _trainer_module_file = os.path.join(_laptop_root, 'trainer_module.py')
 _transform_module_file = os.path.join(_laptop_root, 'transform_module.py')
 _serving_model_dir = os.path.join(_laptop_root, 'serving_model', _pipeline_name)
