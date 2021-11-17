@@ -1,6 +1,16 @@
-# tfx-training
+# TFX-training
 
-To run the pipeline with Apache Airflow
+The TFX training consists of three separate exercises. They build on each others knowledge, but can be executed independently. The sample data used is the [Laptop Prices Prediction dataset](https://www.kaggle.com/danielbethell/laptop-prices-prediction) with the objective to create a workflow for a model that predicts laptop price based on some descriptive attributes.
+
+## Part 1: TFX components
+Create, run and inspect the individual components of a TFX pipeline in a Colab notebook. Access the notebook [here](https://colab.research.google.com/drive/1oQHDhYEkXdmUXGApS6E8q1yKSXOODHrv?usp=sharing)
+
+## Part 2: Run pipeline, ML Metadata and TF Serving
+In this part you will run the complete pipeline (composed of the components defined in the first exercise) with the LocalDagRunner. Subsequently you will explore the created artifacts with the ML Metadata store and finally serve the model with TF Serving for inference request via REST API. Access the notebook [here](https://colab.research.google.com/drive/1ICOvTiHVIBm-YuV___zbE46vyvSIPfWr?usp=sharing)
+
+## Part 3: Run the complete pipeline with Apache Airflow
+
+This part is executed from the command line. The instructions assume you are working on an UNIX compliant machine (e.g. Linux or Mac).
 
 1. Clone this repo and cd into it
 ```
