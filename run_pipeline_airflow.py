@@ -1,5 +1,4 @@
 import os
-import importlib
 from datetime import datetime
 
 from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
@@ -22,10 +21,11 @@ _airflow_config = {
     'start_date': datetime(2019, 1, 1),
 }
 
-laptop_pipeline = importlib.import_module(os.path.join(_laptop_root, 'laptop_pipeline_v2.py'))
+# laptop_pipeline = importlib.import_module(os.path.join(_laptop_root, 'laptop_pipeline_v2'))
+from laptop_pipeline_v2 import create_pipeline
 
 DAG = AirflowDagRunner(AirflowPipelineConfig(_airflow_config)).run(
-    laptop_pipeline.create_pipeline(
+    create_pipeline(
         data_root=_data_root,
         transform_module_file=_transform_module_file,
         trainer_module_file=_trainer_module_file,

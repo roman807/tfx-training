@@ -1,6 +1,3 @@
-import os
-from datetime import datetime
-
 from tfx import v1 as tfx
 from tfx.components import CsvExampleGen
 from tfx.components import Evaluator
@@ -11,8 +8,6 @@ from tfx.components import StatisticsGen
 from tfx.components import Trainer
 from tfx.components import Transform
 from tfx.orchestration import metadata
-# from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
-# from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
 from tfx.proto import pusher_pb2
 from tfx.proto import trainer_pb2
 from tfx.proto import example_gen_pb2
