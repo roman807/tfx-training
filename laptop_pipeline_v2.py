@@ -21,8 +21,8 @@ from tfx.orchestration import data_types
 from tfx.orchestration import metadata
 from tfx.orchestration.metadata import sqlite_metadata_connection_config
 from tfx.orchestration import pipeline
-# from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
-# from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
+from tfx.orchestration.airflow.airflow_dag_runner import AirflowDagRunner
+from tfx.orchestration.airflow.airflow_dag_runner import AirflowPipelineConfig
 from tfx.proto import pusher_pb2
 from tfx.proto import trainer_pb2
 from tfx.types import Channel
@@ -163,3 +163,27 @@ def create_pipeline(
         metadata_connection_config=metadata.sqlite_metadata_connection_config(metadata_path),
         components=components)
 
+
+DATA_ROOT = 'data'
+SERVING_MODEL_DIR = 'serving_model'
+PIPELINE_NAME = 'laptop_pipeline'   # where we will save the final model for deployment with TF serving
+PIPELINE_ROOT = os.path.join('pipelines', PIPELINE_NAME)
+METADATA_PATH = os.path.join('metadata', PIPELINE_NAME, 'metadata.db')
+TRANSFORM_MODULE_FILE = 'transform_module.py'
+TRAIN_MODULE_FILE = 'trainer_module.py'
+
+_airflow_config = {
+    'schedule_interval': None,
+}
+
+DAG = AirflowDagRunner(AirflowPipelineConfig(_airflow_config)).run(
+    create_pipeline(
+        data_root=DATA_ROOT,
+        transform_module_file=TRANSFORM_MODULE_FILE,
+        trainer_module_file=TRAIN_MODULE_FILE,
+        pipeline_name=PIPELINE_NAME,
+        pipeline_root=PIPELINE_ROOT,
+        serving_model_dir=SERVING_MODEL_DIR,
+        metadata_path=METADATA_PATH,
+    )
+)
