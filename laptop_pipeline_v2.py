@@ -40,6 +40,7 @@ from time import time
 import numpy as np
 import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
+from datetime import datetime
 
 
 def create_pipeline(
@@ -174,6 +175,7 @@ TRAIN_MODULE_FILE = 'trainer_module.py'
 
 _airflow_config = {
     'schedule_interval': None,
+    'start_date': datetime(2019, 1, 1),
 }
 
 DAG = AirflowDagRunner(AirflowPipelineConfig(_airflow_config)).run(
