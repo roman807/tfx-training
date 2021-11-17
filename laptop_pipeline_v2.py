@@ -166,6 +166,7 @@ def create_pipeline(
         example_validator,
         transform,
         trainer,
+        model_resolver,
         evaluator,
         pusher
     ]
